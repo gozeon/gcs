@@ -1,0 +1,20 @@
+{
+  "server": {
+    "base": "portal",
+    "port": 5799
+  },
+  "secret": {
+    "session": "xxoo",
+    "cookie": {
+      "name": "gcs_token"
+    }
+  },
+  "admin": {
+    "username": "admin",
+    "password": "admin"
+  },
+  "mongo": {
+    "uri": "mongodb://127.0.0.1:27017",
+    "db": "gcs"
+  }
+}

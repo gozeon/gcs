@@ -1,0 +1,143 @@
+{
+  "title": "用户",
+  "body": {
+    "type": "crud",
+    "api": "/portal/r/jd/users",
+    "loadDataOnce": true,
+    "autoFillHeight": true,
+    "autoGenerateFilter": true,
+    "perPage": 10,
+    "className": "p-3",
+    "columns": [
+      {
+        "name": "id",
+        "width": 200,
+        "label": "ID",
+        "sortable": true,
+        "type": "text",
+        "toggled": true,
+        "remark": "唯一标识"
+      },
+      {
+        "name": "name",
+        "label": "用户名",
+        "sortable": true,
+        "type": "text",
+        "toggled": true,
+        "searchable": {
+          "type": "input-text",
+          "name": "name",
+          "label": "用户名",
+          "placeholder": "输入用户名",
+          "mode": "horizontal"
+        }
+      },
+      {
+        "name": "role",
+        "label": "系统角色",
+        "sortable": true,
+        "type": "text",
+        "toggled": true
+      },
+      {
+        "type": "operation",
+        "label": "操作",
+        "width": 100,
+        "buttons": [
+          {
+            "type": "button",
+            "icon": "fa fa-eye",
+            "actionType": "dialog",
+            "tooltip": "查看",
+            "dialog": {
+              "title": "查看",
+              "body": {
+                "type": "form",
+                "body": [
+                  {
+                    "type": "static",
+                    "name": "id",
+                    "label": "Id"
+                  },
+                  {
+                    "type": "divider"
+                  },
+                  {
+                    "type": "static",
+                    "name": "name",
+                    "label": "用户名"
+                  },
+                  {
+                    "type": "divider"
+                  },
+                  {
+                    "type": "static",
+                    "name": "role",
+                    "label": "用户角色"
+                  },
+                  {
+                    "type": "divider"
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "type": "button",
+            "icon": "fa fa-pencil",
+            "tooltip": "编辑",
+            "actionType": "drawer",
+            "drawer": {
+              "position": "left",
+              "size": "lg",
+              "title": "编辑",
+              "body": {
+                "type": "form",
+                "name": "sample-edit-form",
+                "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/sample/$id",
+                "body": [
+                  {
+                    "type": "input-text",
+                    "name": "name",
+                    "label": "用户名",
+                    "disabled": true,
+                    "required": true
+                  },
+                  {
+                    "type": "divider"
+                  },
+                  {
+                    "type": "select",
+                    "name": "role",
+                    "label": "用户角色",
+                    "required": true,
+                    "options": [
+                      "admin",
+                      "B",
+                      "C",
+                      "D",
+                      "X"
+                    ]
+                  },
+                  {
+                    "type": "divider"
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "type": "button",
+            "icon": "fa fa-times text-danger",
+            "actionType": "ajax",
+            "tooltip": "删除",
+            "confirmText": "您确认要删除?",
+            "api": "delete:https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/sample/$id"
+          }
+        ],
+        "toggled": true
+      }
+    ]
+  }
+}
+

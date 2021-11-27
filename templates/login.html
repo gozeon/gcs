@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8"/>
+    <title>{{.title}}</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/amis@beta/sdk/cxd.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/amis@beta/sdk/helper.css">
+    <script src="https://cdn.jsdelivr.net/npm/amis@beta/sdk/sdk.js"></script>
+
+    <style>
+        html,
+        body,
+        .app-wrapper {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+
+        :root {
+            --Alert-marginBottom: 0.25rem;
+        }
+
+    </style>
+</head>
+
+<body>
+<div id="root" class="app-wrapper"></div>
+<script type="text/javascript">
+    (function () {
+        let amis = amisRequire('amis/embed');
+        // 通过替换下面这个配置来生成不同页面
+        let amisJSON = {
+            "type": "page",
+            "cssVars": {
+                "--Alert-marginBottom": "0.25rem",
+            },
+            "title": "GCS",
+            "body": [
+
+                {
+                    "type": "grid",
+                    "columns": [
+                        {
+                            "body": []
+                        },
+                        {
+                            "body": [
+                                {
+                                    "type": "alert",
+                                    "body": "{{.errMsg}}",
+                                    "level": "danger",
+                                    "showCloseButton": true,
+                                    "showIcon": true,
+                                    "visible": Boolean("{{.errMsg}}")
+                                },
+                                {
+                                    "type": "form",
+                                    "title": "登录",
+                                    "resetAfterSubmit": false,
+                                    "redirect": "{{.next}}",
+                                    "body": [
+                                        {
+                                            "label": "用户名",
+                                            "type": "input-text",
+                                            "name": "username",
+                                            "required": true,
+                                        },
+                                        {
+                                            "type": "input-password",
+                                            "label": "密码",
+                                            "name": "password",
+                                            "required": true
+                                        }
+                                    ],
+                                    "api": "/portal/r/jd/login"
+                                }
+                            ]
+                        },
+                        {
+                            "body": []
+                        }
+                    ]
+                }
+            ],
+            "messages": {},
+            "style": {},
+            "regions": [
+                "body",
+                "toolbar",
+                "header"
+            ]
+        }
+        let amisScoped = amis.embed('#root', amisJSON,);
+    })();
+</script>
+<script>
+    // 将提示框放到中间
+    // setInterval(() => {
+    //     document.querySelectorAll('.cxd-Toast-wrap.cxd-Toast-wrap--topRight').forEach(el => {
+    //         el.classList.remove('cxd-Toast-wrap--topRight')
+    //         el.classList.add('cxd-Toast-wrap--topCenter')
+    //     })
+    // }, 5)
+</script>
+</body>
+
+</html>

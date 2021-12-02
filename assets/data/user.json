@@ -4,7 +4,7 @@
     {
       "type": "crud",
       "name": "crud",
-      "api": "/portal/r/jd/users",
+      "api": "/portal/r/jd/user/",
       "loadDataOnce": true,
       "autoFillHeight": true,
       "autoGenerateFilter": true,
@@ -25,7 +25,7 @@
             "body": {
               "type": "form",
               "name": "sample-edit-form",
-              "api": "post:/portal/r/jd/user",
+              "api": "post:/portal/r/jd/user/",
               "body": [
                 {
                   "type": "input-text",

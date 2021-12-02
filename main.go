@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	"fmt"
+	"gcs/cont"
 	"gcs/handler"
 	"log"
 	"net/http"
@@ -41,7 +42,7 @@ func init() {
 	log.Println("Connected to MongoDB: " + viper.GetString("mongo.uri") + ", " + viper.GetString("mongo.db"))
 	mongodb := client.Database(viper.GetString("mongo.db"))
 
-	authHandler = handler.NewAuthHandler(ctx)
+	authHandler = handler.NewAuthHandler(ctx, mongodb)
 	dashHandler = handler.NewDashHandler(ctx)
 	userHandler = handler.NewUserHandler(ctx, mongodb)
 }
@@ -76,10 +77,15 @@ func main() {
 		{
 			jsonRouter.POST("/login", authHandler.Login)
 			jsonRouter.GET("/me", handler.AuthMiddleware(), userHandler.Me)
-			jsonRouter.GET("/users", handler.AuthMiddleware(), userHandler.Users)
-			jsonRouter.POST("/user", handler.AuthMiddleware(), userHandler.NewUser)
-			jsonRouter.DELETE("/user/:id", handler.AuthMiddleware(), userHandler.DeleteUser)
-			jsonRouter.PUT("/user/:id", handler.AuthMiddleware(), userHandler.UpdateUser)
+
+			userRouter := jsonRouter.Group("/user")
+			userRouter.Use(handler.AuthMiddleware(cont.Admin.String()))
+			{
+				userRouter.GET("/", userHandler.Users)
+				userRouter.POST("/", userHandler.NewUser)
+				userRouter.DELETE("/:id", userHandler.DeleteUser)
+				userRouter.PUT("/:id", userHandler.UpdateUser)
+			}
 		}
 	}
 

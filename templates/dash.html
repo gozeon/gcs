@@ -83,10 +83,26 @@
             brandName: 'GCS',
             logo: '/assets/favicon.ico',
             header: {
-                type: 'tpl',
-                inline: false,
-                className: 'w-full',
-                tpl: '<div class="flex justify-between"><div></div><div>{{.username}}</div></div>'
+                type: 'flex',
+                className: "w-full px-3",
+                justify: 'end',
+                items: [
+                    {
+                        "type": "dropdown-button",
+                        "level": "link",
+                        "label": "{{.username}}",
+                        "hideCaret": false,
+                        "size": "lg",
+                        "buttons": [
+                            {
+                                "type": "link",
+                                "body": "退出a",
+                                "href": "/portal/r/w/login",
+                                "blank": false
+                            },
+                        ]
+                    }
+                ]
             },
             footer: '<div class="p-2 text-center bg-light">© 2021 Goze</div>',
             // asideBefore: '<div class="p-2 text-center">菜单前面区域</div>',

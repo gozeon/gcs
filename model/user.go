@@ -10,7 +10,8 @@ type LoginUser struct {
 }
 
 type User struct {
-	ID   primitive.ObjectID `json:"id" bson:"_id"`
-	Name string             `json:"name" bson:"name"`
-	Role string             `json:"role" bson:"role"`
+	ID       primitive.ObjectID `json:"id" bson:"_id"`
+	Name     string             `json:"name" bson:"name"`
+	Password string             `json:"password" bson:"password"`
+	Role     string             `json:"role" bson:"role"`
 }

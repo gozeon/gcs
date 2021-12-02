@@ -4,14 +4,15 @@ import (
 	"context"
 	"fmt"
 	"gcs/handler"
+	"log"
+	"net/http"
+
 	"github.com/gin-contrib/sessions"
 	"github.com/gin-contrib/sessions/cookie"
 	"github.com/spf13/viper"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 	"go.mongodb.org/mongo-driver/mongo/readpref"
-	"log"
-	"net/http"
 
 	"github.com/gin-gonic/gin"
 )
@@ -30,6 +31,8 @@ func init() {
 	if err != nil {
 		log.Fatal(err)
 	}
+
+	log.Println("Prepare connected to MongoDB: " + viper.GetString("mongo.uri") + ", " + viper.GetString("mongo.db"))
 
 	client, err := mongo.Connect(ctx, options.Client().ApplyURI(viper.GetString("mongo.uri")))
 	if err = client.Ping(context.TODO(), readpref.Primary()); err != nil {
@@ -74,6 +77,9 @@ func main() {
 			jsonRouter.POST("/login", authHandler.Login)
 			jsonRouter.GET("/me", handler.AuthMiddleware(), userHandler.Me)
 			jsonRouter.GET("/users", handler.AuthMiddleware(), userHandler.Users)
+			jsonRouter.POST("/user", handler.AuthMiddleware(), userHandler.NewUser)
+			jsonRouter.DELETE("/user/:id", handler.AuthMiddleware(), userHandler.DeleteUser)
+			jsonRouter.PUT("/user/:id", handler.AuthMiddleware(), userHandler.UpdateUser)
 		}
 	}
 

@@ -34,7 +34,7 @@ func (handler *AuthHandler) ShowLogin(c *gin.Context) {
 	errMsg := c.Query("errMsg")
 
 	c.HTML(http.StatusOK, "login.html", gin.H{
-		"title":  session.Get("username"),
+		"title":  "login",
 		"next":   next,
 		"errMsg": errMsg,
 	})
@@ -99,6 +99,19 @@ func (handler *AuthHandler) Login(c *gin.Context) {
 			},
 		})
 	}
+}
+
+func (handler *AuthHandler) Logout(c *gin.Context) {
+	session := sessions.Default(c)
+
+	session.Clear()
+	session.Save()
+
+	c.JSON(http.StatusOK, gin.H{
+		"status": 0,
+		"msg":    "ok",
+		"data":   gin.H{},
+	})
 }
 
 func AuthMiddleware(roles ...string) gin.HandlerFunc {

@@ -96,7 +96,7 @@
                         "buttons": [
                             {
                                 "type": "link",
-                                "body": "退出a",
+                                "body": "退出",
                                 "href": "/portal/r/w/login",
                                 "blank": false
                             },
@@ -109,6 +109,19 @@
             // asideAfter: '<div class="p-2 text-center">-</div>',
             pages: [
                 {
+                    "label": "Home",
+                    "children": [
+                        {
+                            "label": "统计",
+                            "url": "/",
+                            "schemaApi": "/assets/data/ays.json?" + Date.now()
+                        }
+                    ]
+                },
+
+
+                {{ if eq .role "Admin" }}
+                {
                     "label": "权限",
                     "children": [
                         {
@@ -117,7 +130,8 @@
                             "schemaApi": "/assets/data/user.json?" + Date.now()
                         }
                     ]
-                }
+                },
+                {{ end }}
             ]
         }
         let amisScoped = amis.embed('#root', amisJSON, {

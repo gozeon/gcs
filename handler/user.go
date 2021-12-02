@@ -33,19 +33,12 @@ func (handler *UserHandler) Me(c *gin.Context) {
 	session := sessions.Default(c)
 
 	c.JSON(http.StatusOK, gin.H{
-		"username": session.Get("username"),
-		"role":     session.Get("role"),
-	})
-}
-
-func (handler *UserHandler) Logout(c *gin.Context) {
-	session := sessions.Default(c)
-
-	session.Clear()
-
-	c.JSON(http.StatusOK, gin.H{
-		"username": session.Get("username"),
-		"role":     session.Get("role"),
+		"status": 0,
+		"msg":    "ok",
+		"data": gin.H{
+			"username": session.Get("username"),
+			"role":     session.Get("role"),
+		},
 	})
 }
 

@@ -76,6 +76,7 @@ func main() {
 		jsonRouter := v1.Group("/r/jd")
 		{
 			jsonRouter.POST("/login", authHandler.Login)
+			jsonRouter.GET("/logout", authHandler.Logout)
 			jsonRouter.GET("/me", handler.AuthMiddleware(), userHandler.Me)
 
 			userRouter := jsonRouter.Group("/user")

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge"/>
+    {{ template "head.html" .}}
+</head>
+
+<body>
+<div id="root" class="app-wrapper"></div>
+<script type="text/javascript">
+    (function () {
+        let amis = amisRequire('amis/embed');
+        // 通过替换下面这个配置来生成不同页面
+        let amisJSON = {
+         "type": "page",
+         "title": "{{.title}}",
+         "body": {
+           "type": "crud",
+           "loadDataOnce": true,
+           "api": "/portal/r/jd/app/",
+           "mode": "cards",
+           "headerToolbar": [
+               "reload",
+           ],
+
+           "card": {
+               "header": {
+                  "title": "$name",
+                  "subTitlePlaceholder": "$description",
+                  "avatar": "<%= data.logo || \"https://internal-amis-res.cdn.bcebos.com/images/2019-12/1575350573496/4873dbfaf6a5.png\" %>",
+                  "avatarClassName": "pull-left thumb b-3x m-r"
+                },
+
+             "actions": [
+               {
+                 "type": "button",
+                 "label": "查看",
+                 "actionType": "url",
+                 "url": "/portal/r/w/app/$id"
+               },
+             ],
+             "body": [
+               
+             ]
+           }
+         }
+       }
+
+        let amisScoped = amis.embed('#root', amisJSON,);
+    })();
+</script>
+<script>
+    // 将提示框放到中间
+    // setInterval(() => {
+    //     document.querySelectorAll('.cxd-Toast-wrap.cxd-Toast-wrap--topRight').forEach(el => {
+    //         el.classList.remove('cxd-Toast-wrap--topRight')
+    //         el.classList.add('cxd-Toast-wrap--topCenter')
+    //     })
+    // }, 5)
+</script>
+</body>
+
+</html>

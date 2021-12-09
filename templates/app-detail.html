@@ -11,8 +11,10 @@
 
 <body>
 <div id="root" class="app-wrapper"></div>
+
 <script type="text/javascript">
-    (function () {
+    function render (amisJSON) {
+        console.log(amisJSON)
         let amis = amisRequire('amis/embed');
         const match = amisRequire('path-to-regexp').match;
         const history = History.createHashHistory();
@@ -78,62 +80,6 @@
         }
 
         // 通过替换下面这个配置来生成不同页面
-        let amisJSON = {
-            type: 'app',
-            brandName: 'GCS',
-            logo: '/assets/favicon.ico',
-            header: {
-                type: 'flex',
-                className: "w-full px-3",
-                justify: 'end',
-                items: [
-                    {
-                        "type": "dropdown-button",
-                        "level": "link",
-                        "label": "{{.username}}",
-                        "hideCaret": false,
-                        "size": "lg",
-                        "buttons": [
-                            {
-                                "type": "link",
-                                "body": "退出",
-                                "href": "/portal/r/w/login",
-                                "blank": false
-                            },
-                        ]
-                    }
-                ]
-            },
-            footer: '<div class="p-2 text-center bg-light">© 2021 Goze</div>',
-            // asideBefore: '<div class="p-2 text-center">菜单前面区域</div>',
-            // asideAfter: '<div class="p-2 text-center">-</div>',
-            pages: [
-                {
-                    "label": "Home",
-                    "children": [
-                        {
-                            "label": "统计",
-                            "url": "/",
-                            "schemaApi": "/assets/data/ays.json?" + Date.now()
-                        }
-                    ]
-                },
-
-
-                {{ if eq .role "Admin" }}
-                {
-                    "label": "权限",
-                    "children": [
-                        {
-                            "label": "用户管理",
-                            "url": "/user",
-                            "schemaApi": "/assets/data/user.json?" + Date.now()
-                        }
-                    ]
-                },
-                {{ end }}
-            ]
-        }
         let amisScoped = amis.embed('#root', amisJSON, {
             location: history.location
         }, {
@@ -197,7 +143,22 @@
                 location: state.location || state
             });
         });
-    })();
+    }
+
+    fetch('/portal/r/jd/app/{{.id}}').then(res => res.json()).then(res=> {
+        console.log(res)
+        const {status, msg, data} = res
+        if(status === 0) {
+            render({
+                ...data,
+                type: 'app',
+                brandName: data?.name,
+                pages: JSON.parse(data?.pages || '[]')
+            })
+        }
+    }).catch(err => {
+        document.querySelector('#root').innerHTML(err.message)
+    })
 </script>
 </body>
 

@@ -25,13 +25,49 @@ func NewAppHandler(ctx context.Context, mongodb *mongo.Database) *AppHandler {
 	}
 }
 
-func (handler *AppHandler) ShowApp(c *gin.Context) {
+func (handler *AppHandler) ShowApps(c *gin.Context) {
 	session := sessions.Default(c)
 
-	c.HTML(http.StatusOK, "app.html", gin.H{
-		"title":    "app",
+	c.HTML(http.StatusOK, "app-card.html", gin.H{
+		"title":    "应用中心",
 		"username": session.Get("username"),
 		"role":     session.Get("role"),
+	})
+}
+
+func (handler *AppHandler) ShowApp(c *gin.Context) {
+	id := c.Param("id")
+	c.HTML(http.StatusOK, "app-detail.html", gin.H{
+		"title": "",
+		"id":    id,
+	})
+}
+
+func (handler *AppHandler) AppInfo(c *gin.Context) {
+	id := c.Param("id")
+	var app model.App
+
+	objectId, _ := primitive.ObjectIDFromHex(id)
+	appCollection := handler.mongodb.Collection("app")
+
+	err := appCollection.FindOne(handler.ctx, bson.M{
+		"_id": objectId,
+	}).Decode(&app)
+
+	if err == mongo.ErrNoDocuments {
+		c.JSON(http.StatusOK, gin.H{
+			"status": http.StatusBadRequest,
+			"msg":    "数据库操作未找到",
+			"error":  err.Error(),
+			"data":   gin.H{},
+		})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{
+		"status": 0,
+		"msg":    "ok",
+		"data":   app,
 	})
 }
 

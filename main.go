@@ -74,7 +74,8 @@ func main() {
 		{
 			webRouter.GET("/login", authHandler.ShowLogin)
 			webRouter.GET("/dash", adminAuthMiddleware, dashHandler.ShowDash)
-			webRouter.GET("/app", adminAuthMiddleware, appHandler.ShowApp)
+			webRouter.GET("/apps", handler.AuthMiddleware(), appHandler.ShowApps)
+			webRouter.GET("/app/:id", handler.AuthMiddleware(), appHandler.ShowApp)
 		}
 
 		// json router
@@ -97,6 +98,7 @@ func main() {
 			appRouter.Use(adminAuthMiddleware)
 			{
 				appRouter.GET("/", appHandler.Apps)
+				appRouter.GET("/:id", appHandler.AppInfo)
 				appRouter.POST("/", appHandler.NewApp)
 				appRouter.DELETE("/:id", appHandler.DeleteApp)
 				appRouter.PUT("/:id", appHandler.UpdateApp)

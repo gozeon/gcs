@@ -131,11 +131,13 @@ func AuthMiddleware(roles ...string) gin.HandlerFunc {
 		// auth
 		if len(roles) > 0 {
 			if !utils.Contains(roles, role) {
-				c.AbortWithStatusJSON(http.StatusOK, gin.H{
-					"status": http.StatusUnauthorized,
-					"msg":    "无权访问",
-					"data":   gin.H{},
-				})
+				c.Redirect(http.StatusFound, "/portal/r/w/login?next="+c.Request.RequestURI+"&errMsg="+"无权访问，请重新登录")
+
+				//c.AbortWithStatusJSON(http.StatusOK, gin.H{
+				//	"status": http.StatusUnauthorized,
+				//	"msg":    "无权访问",
+				//	"data":   gin.H{},
+				//})
 				return
 			}
 		}

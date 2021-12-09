@@ -1,0 +1,267 @@
+{
+  "type": "page",
+  "body": [
+    {
+      "type": "crud",
+      "name": "crud",
+      "api": "/portal/r/jd/app/",
+      "loadDataOnce": true,
+      "autoFillHeight": true,
+      "autoGenerateFilter": true,
+      "syncLocation": true,
+      "perPage": 10,
+      "className": "p-3",
+      "headerToolbar": [
+        "reload",
+        {
+          "type": "button",
+          "label": "新建",
+          "level": "primary",
+          "actionType": "drawer",
+          "drawer": {
+            "position": "left",
+            "size": "lg",
+            "title": "新建",
+            "body": {
+              "type": "form",
+              "name": "sample-edit-form",
+              "api": "post:/portal/r/jd/app/",
+              "body": [
+                {
+                  "type": "input-text",
+                  "name": "name",
+                  "label": "应用名",
+                  "required": true
+                },
+                {
+                  "type": "divider"
+                },
+                {
+                  "type": "textarea",
+                  "name": "description",
+                  "label": "描述"
+                },
+                {
+                  "type": "divider"
+                },
+                {
+                  "type": "input-text",
+                  "name": "api",
+                  "label": "Api"
+                },
+                {
+                  "type": "divider"
+                },
+                {
+                  "type": "input-text",
+                  "name": "logo",
+                  "label": "Logo"
+                },
+                {
+                  "type": "divider"
+                },
+                {
+                  "type": "input-text",
+                  "name": "className",
+                  "label": "ClassName",
+                  "labelRemark": "多个用空格隔开"
+                },
+                {
+                  "type": "divider"
+                },
+                {
+                  "type": "editor",
+                  "name": "pages",
+                  "label": "Pages",
+                  "language": "json",
+                  "options": {
+                    "lineNumbers": "on"
+                  }
+                }
+              ]
+            }
+          }
+        }
+      ],
+      "columns": [
+        {
+          "name": "id",
+          "width": 200,
+          "label": "ID",
+          "sortable": true,
+          "type": "text",
+          "toggled": true,
+          "remark": "唯一标识"
+        },
+        {
+          "name": "name",
+          "label": "应用名",
+          "sortable": true,
+          "type": "text",
+          "toggled": true,
+          "searchable": {
+            "type": "input-text",
+            "name": "name",
+            "label": "应用名",
+            "placeholder": "输入应用名",
+            "mode": "horizontal"
+          }
+        },
+        {
+          "name": "description",
+          "label": "描述",
+          "sortable": true,
+          "type": "text",
+          "toggled": true
+        },
+        {
+          "type": "operation",
+          "label": "操作",
+          "width": 100,
+          "buttons": [
+            {
+              "type": "button",
+              "icon": "fa fa-eye",
+              "actionType": "dialog",
+              "tooltip": "查看",
+              "dialog": {
+                "size": "xl",
+                "title": "查看",
+                "body": {
+                  "type": "form",
+                  "body": [
+                    {
+                      "type": "static",
+                      "name": "name",
+                      "label": "应用名",
+                      "required": true
+                    },
+                    {
+                      "type": "divider"
+                    },
+                    {
+                      "type": "static",
+                      "name": "description",
+                      "label": "描述"
+                    },
+                    {
+                      "type": "divider"
+                    },
+                    {
+                      "type": "static",
+                      "name": "api",
+                      "label": "Api"
+                    },
+                    {
+                      "type": "divider"
+                    },
+                    {
+                      "type": "static",
+                      "name": "logo",
+                      "label": "Logo"
+                    },
+                    {
+                      "type": "divider"
+                    },
+                    {
+                      "type": "static",
+                      "name": "className",
+                      "label": "ClassName",
+                      "labelRemark": "多个用空格隔开"
+                    },
+                    {
+                      "type": "divider"
+                    },
+                    {
+                      "type": "editor",
+                      "name": "pages",
+                      "label": "Pages",
+                      "language": "json",
+                      "disabled": true
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "type": "button",
+              "icon": "fa fa-pencil",
+              "tooltip": "编辑",
+              "actionType": "drawer",
+              "drawer": {
+                "position": "left",
+                "size": "lg",
+                "title": "编辑",
+                "body": {
+                  "type": "form",
+                  "name": "sample-edit-form",
+                  "api": "put:/portal/r/jd/app/$id",
+                  "body": [
+                    {
+                      "type": "input-text",
+                      "name": "name",
+                      "label": "应用名",
+                      "required": true
+                    },
+                    {
+                      "type": "divider"
+                    },
+                    {
+                      "type": "textarea",
+                      "name": "description",
+                      "label": "描述"
+                    },
+                    {
+                      "type": "divider"
+                    },
+                    {
+                      "type": "input-text",
+                      "name": "api",
+                      "label": "Api"
+                    },
+                    {
+                      "type": "divider"
+                    },
+                    {
+                      "type": "input-text",
+                      "name": "logo",
+                      "label": "Logo"
+                    },
+                    {
+                      "type": "divider"
+                    },
+                    {
+                      "type": "input-text",
+                      "name": "className",
+                      "label": "ClassName",
+                      "labelRemark": "多个用空格隔开"
+                    },
+                    {
+                      "type": "divider"
+                    },
+                    {
+                      "type": "editor",
+                      "name": "pages",
+                      "label": "Pages",
+                      "language": "json"
+                      
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "type": "button",
+              "icon": "fa fa-times text-danger",
+              "actionType": "ajax",
+              "tooltip": "删除",
+              "confirmText": "您确认要删除?",
+              "api": "delete:/portal/r/jd/app/$id"
+            }
+          ],
+          "toggled": true
+        }
+      ]
+    }
+  ]
+}

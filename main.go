@@ -21,6 +21,7 @@ import (
 var authHandler *handler.AuthHandler
 var dashHandler *handler.DashHandler
 var userHandler *handler.UserHandler
+var appHandler *handler.AppHandler
 
 func init() {
 	ctx := context.Background()
@@ -45,6 +46,7 @@ func init() {
 	authHandler = handler.NewAuthHandler(ctx, mongodb)
 	dashHandler = handler.NewDashHandler(ctx)
 	userHandler = handler.NewUserHandler(ctx, mongodb)
+	appHandler = handler.NewAppHandler(ctx, mongodb)
 }
 
 func main() {
@@ -56,6 +58,8 @@ func main() {
 	// session
 	store := cookie.NewStore([]byte(viper.GetString("secret.session")))
 	router.Use(sessions.Sessions(viper.GetString("secret.cookie.name"), store))
+
+	adminAuthMiddleware := handler.AuthMiddleware(cont.Admin.String(), cont.Owner.String(), cont.Maintainer.String(), cont.Developer.String())
 
 	v1 := router.Group(fmt.Sprintf("/%s", viper.Get("server.base")))
 	{
@@ -69,7 +73,8 @@ func main() {
 		webRouter := v1.Group("/r/w")
 		{
 			webRouter.GET("/login", authHandler.ShowLogin)
-			webRouter.GET("/dash", handler.AuthMiddleware(), dashHandler.ShowDash)
+			webRouter.GET("/dash", adminAuthMiddleware, dashHandler.ShowDash)
+			webRouter.GET("/app", adminAuthMiddleware, appHandler.ShowApp)
 		}
 
 		// json router
@@ -87,9 +92,17 @@ func main() {
 				userRouter.DELETE("/:id", userHandler.DeleteUser)
 				userRouter.PUT("/:id", userHandler.UpdateUser)
 			}
+
+			appRouter := jsonRouter.Group("/app")
+			appRouter.Use(adminAuthMiddleware)
+			{
+				appRouter.GET("/", appHandler.Apps)
+				appRouter.POST("/", appHandler.NewApp)
+				appRouter.DELETE("/:id", appHandler.DeleteApp)
+				appRouter.PUT("/:id", appHandler.UpdateApp)
+			}
 		}
 	}
 
 	router.Run(fmt.Sprintf(":%d", viper.GetInt("server.port")))
-
 }

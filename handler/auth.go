@@ -123,6 +123,7 @@ func AuthMiddleware(roles ...string) gin.HandlerFunc {
 		// if login
 		if username == nil {
 			c.Redirect(http.StatusFound, "/portal/r/w/login?next="+c.Request.RequestURI+"&errMsg="+"获取登录信息失败，请重新登录")
+			c.Abort()
 			return
 		}
 
@@ -132,7 +133,7 @@ func AuthMiddleware(roles ...string) gin.HandlerFunc {
 		if len(roles) > 0 {
 			if !utils.Contains(roles, role) {
 				c.Redirect(http.StatusFound, "/portal/r/w/login?next="+c.Request.RequestURI+"&errMsg="+"无权访问，请重新登录")
-
+				c.Abort()
 				//c.AbortWithStatusJSON(http.StatusOK, gin.H{
 				//	"status": http.StatusUnauthorized,
 				//	"msg":    "无权访问",
